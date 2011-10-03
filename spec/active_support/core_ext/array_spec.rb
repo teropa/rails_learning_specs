@@ -1,6 +1,15 @@
 require 'spec_helper'
 require 'active_support/core_ext/array'
 
+class NonExtractableHash < Hash
+end
+
+class ExtractableHash < Hash
+  def extractable_options?
+    true
+  end
+end
+
 describe "ActiveSupport Array extensions" do
   
   describe "access" do
@@ -40,6 +49,62 @@ describe "ActiveSupport Array extensions" do
       arr.fifth.should == 5
       expect { arr.sixth }.to raise_error(NoMethodError)
       arr.forty_two.should == 42
+    end
+    
+  end
+  
+  describe "conversions" do
+    
+    it "is waiting for further specs"
+    
+  end
+  
+  describe "option extraction" do
+    
+    it "removes and returns the last item if it is a hash" do
+      arr = [1, 2, {opt: 4}]
+      
+      returned = arr.extract_options!
+      
+      arr.should == [1, 2]
+      returned.should == {opt: 4}
+    end
+        
+    it "does not remove anything and return an empty hash if the last item is not a hash" do
+      arr = [1, 2, 3]
+      
+      returned = arr.extract_options!
+      
+      arr.should == [1, 2, 3]
+      returned.should == {}
+    end
+    
+    it "returns an empty hash if the array is empty" do
+      arr = []
+      
+      returned = arr.extract_options!
+      
+      arr.should == []
+      returned.should == {}
+    end
+    
+    it "does not remove anything and return an empty hash if the last item is a subclass of hash" do
+      arr = [1, 2, 3, NonExtractableHash.new]
+      
+      returned = arr.extract_options!
+      
+      arr.size.should == 4
+      returned.should == {}
+    end
+    
+    
+    it "removes and returns the last item if it is a subclass of hash that overrides extractable_options?" do
+      arr = [1, 2, 3, ExtractableHash[:opt, 4]]
+    
+      returned = arr.extract_options!
+    
+      arr.size.should == 3
+      returned.should == {opt: 4}
     end
     
   end
