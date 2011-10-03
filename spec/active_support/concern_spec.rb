@@ -6,21 +6,16 @@ module Foo
   
   included do
     class_eval do
-      def foo_callback_block_method
-      end
+      def foo_callback_block_method; end
     end
   end
   
   module ClassMethods
-    def foo_class_method
-      true
-    end
+    def foo_class_method; end
   end
   
   module InstanceMethods
-    def foo_instance_method
-      true
-    end
+    def foo_instance_method; end
   end
 end
 
@@ -30,21 +25,16 @@ module Bar
   
   included do
     class_eval do
-      def bar_callback_block_method
-      end
+      def bar_callback_block_method; end
     end
   end
   
   module ClassMethods
-    def bar_class_method
-      true
-    end
+    def bar_class_method; end
   end
   
   module InstanceMethods
-    def bar_instance_method
-      true
-    end
+    def bar_instance_method; end
   end
 end
 
