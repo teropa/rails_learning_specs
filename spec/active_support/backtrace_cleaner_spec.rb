@@ -15,7 +15,7 @@ describe "ActiveSupport Backtrace Cleaner" do
     result.should == ['A', 'B', 'C']
   end
     
-  it "removes each line that match a given silencer block" do
+  it "removes each line that matches a given silencer block" do
     @cleaner.add_silencer { |line| line == 'b' }
     
     result = @cleaner.clean(['a', 'b', 'c'])
